@@ -13,12 +13,15 @@ pkg_name = "batctl"
 wlan = "wlan0"
 eth = "ens33"
 bridgeip = "192.168.2.1"
-cache = apt.cache.Cache
-cache.update()
+essid = "my-mesh-network"
+ap = "02:12:34:56:78:90"
+
 
 if not os.geteuid() == 0:
     sys.exit("\nOnly root can run this script\n")
 
+cache = apt.cache.Cache
+cache.update()
 pkg = cache[pkg_name]
 if pkg.is_installed:
     print "{pkg_name} already installed".format(pkg_name=pkg_name)
@@ -39,7 +42,7 @@ os.system("modprobe batman-adv")
 os.system("sudo ifconfig {wlan0} mtu 1528".format(wlan0=wlan))
 os.system("ifconfig {wlan0} down".format(wlan0=wlan))
 os.wait(3)
-os.system("iwconfig {wlan0} mode ad-hoc essid my-mesh-network ap 02:12:34:56:78:90 channel 1".format(wlan0=wlan))
+os.system("iwconfig {wlan0} mode ad-hoc essid {essid} ap {ap} channel 1".format(wlan0=wlan, ap=ap, essid=essid))
 os.system("sudo batctl if add {wlan0}".format(wlan0=wlan))
 os.system("ifconfig {wlan0} up".format(wlan0=wlan))
 os.system("ifconfig bat0 up")
