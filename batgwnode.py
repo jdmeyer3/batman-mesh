@@ -23,7 +23,7 @@ class batgwnode(object):
         if not os.geteuid() == 0:
             sys.exit("\nOnly root can run this script\n")
 
-        cache = apt.cache.Cache
+        cache = apt.Cache()
         cache.update()
         pkg = cache[self.pkg_name]
         if pkg.is_installed:
@@ -62,3 +62,10 @@ class batgwnode(object):
         os.system("ip link set up dev bat0")
         os.system("ip link set up dev mesh-bridge")
         os.system("ifconfig mesh-bridge {ipaddr}".format(ipaddr=self.bridgeip))
+        
+if __name__ == "__main__":
+    batgw = batgwnode()
+    batgw.installbat()
+    batgw.createbatgw()
+  
+    
