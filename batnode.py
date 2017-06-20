@@ -22,7 +22,7 @@ class batnode(object):
         if not os.geteuid() == 0:
             sys.exit("\nOnly root can run this script\n")
 
-        cache = apt.cache.Cache
+        cache = apt.Cache()
         cache.update()
         pkg = cache[self.pkg_name]
         if pkg.is_installed:
@@ -50,5 +50,5 @@ class batnode(object):
 
 if __name__ == "__main__":
     newbat = batnode()
-    batnode.batinstall()
-    batnode.createbatnode()
+    newbat.batinstall()
+    newbat.createbatnode()
