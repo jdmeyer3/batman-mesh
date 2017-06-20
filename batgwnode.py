@@ -14,7 +14,7 @@ class batgwnode(object):
     def __init__(self):
         self.pkg_name = "batctl"
         self.wlan = "wlan0"
-        self.eth = "ens33"
+        self.eth = "eth0"
         self.bridgeip = "192.168.2.1"
         self.essid = "my-mesh-network"
         self.ap = "02:12:34:56:78:90"
@@ -35,6 +35,9 @@ class batgwnode(object):
                 cache.commit()
             except Exception, arg:
                 print >> sys.stderr, "Sorry, package installation failed [{err}]".format(err=str(arg))
+    def installbat0(self):
+        os.system("apt-get update")
+        os.system("apt-get install batctl")
 
 
     def createbatgw(self):
@@ -65,7 +68,7 @@ class batgwnode(object):
         
 if __name__ == "__main__":
     batgw = batgwnode()
-    batgw.installbat()
+    batgw.installbat0()
     batgw.createbatgw()
   
     
